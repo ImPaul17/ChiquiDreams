@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChiquiDreams - Animación Infantil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollToPlugin.min.js"></script>
+    <style>
+        /* Define la fuente personalizada Stopbuck */
+        @font-face {
+            font-family: 'Stopbuck';
+            src: url('fonts/Stopbuck.ttf') format('truetype'); /* Asegúrate de que la ruta sea correcta */
+        }
+        /* Define la fuente principal para el cuerpo del documento a Outfit */
+        body {
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden; /* Evita el scroll horizontal causado por animaciones */
+            background-color: #1a1a1a; /* Asegura un fondo oscuro consistente */
+            color: #e5e5e5; /* Color de texto claro por defecto */
+        }
+        /* Aplica la fuente Stopbuck a todos los títulos principales */
+        h1, h2, h3 {
+            font-family: 'Stopbuck', sans-serif;
+            /* Sombra de texto mejorada para que los títulos destaquen más */
+            text-shadow: 3px 3px 6px rgba(158, 106, 203, 0.8); /* Sombra más pronunciada y con desenfoque */
+            color: #e5e5e5; /* Color del texto blanco */
+            letter-spacing: 0.08em; /* Mayor separación entre letras para impacto */
+        }
+
+        /* Define colores personalizados en CSS para usar con Tailwind */
+        :root {
+            --color-purple: #9e6acb;
+            --color-blue: #9ccbda;
+            --color-beige: #e3bfb3;
+            --color-dark-primary: #1a1a1a;
+            --color-light-primary: #e5e5e5;
+            --color-gray-800: #2d2d2d; /* Un gris un poco más claro para contraste */
+            --color-gray-700: #4a4a4a; /* Un gris más claro para bordes y sombras */
+        }
+
+        .custom-purple { background-color: var(--color-purple); }
+        .text-custom-purple { color: var(--color-purple); }
+        .custom-blue { background-color: var(--color-blue); }
+        .text-custom-blue { color: var(--color-blue); }
+        .custom-beige { background-color: var(--color-beige); }
+        .text-custom-beige { color: var(--color-beige); }
+        .bg-dark-primary { background-color: var(--color-dark-primary); }
+        .text-light-primary { color: var(--color-light-primary); }
+        .bg-gray-800 { background-color: var(--color-gray-800); }
+        .border-gray-700 { border-color: var(--color-gray-700); }
+        .bg-gray-700 { background-color: var(--color-gray-700); }
+        .focus-ring-custom-purple:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(158, 106, 203, 0.5); /* Anillo de enfoque con glow */
+        }
+
+        /* Estilo general para las secciones para asegurar padding responsivo */
+        section {
+            padding: 8rem 0; /* Más padding en pantallas grandes para un mejor respiro */
+            position: relative; /* Para posicionar fondos y partículas */
+            overflow: hidden; /* Asegura que los efectos de fondo no se desborden */
+        }
+        @media (max-width: 768px) {
+            section {
+                padding: 4rem 0; /* Menos padding en pantallas pequeñas */
+            }
+        }
+
+        /* Estilos para el header fijo que aparece al hacer scroll */
+        .header-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-100%);
+        }
+        .header-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .header-transition {
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+
+        /* Animación de fondo sutil para la sección hero */
+        #hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(158, 106, 203, 0.2) 0%, rgba(26, 26, 26, 0) 70%);
+            animation: pulse-gradient 6s infinite alternate ease-in-out;
+            z-index: 0;
+        }
+
+        @keyframes pulse-gradient {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 0.6; }
+        }
+
+        /* Fondo con patrón sutil para la sección de servicios */
+        #servicios::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,%3Csvg width="6" height="6" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239e6acb" fill-opacity="0.1" fill-rule="evenodd"%3E%3Cpath d="M5 0h1L0 6V5zM6 5v1H5zM1 0h1L0 2V1z"%3E%3C/path%3E%3C/g%3E%3C/svg%3E');
+            background-repeat: repeat;
+            opacity: 0.08; /* Aumentado ligeramente para mayor visibilidad */
+            z-index: 0;
+        }
+
+        /* Fondo con gradiente sutil para la sección de nosotros */
+        #nosotros::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(156, 203, 218, 0.1) 0%, rgba(26, 26, 26, 0) 70%);
+            opacity: 0.08;
+            z-index: 0;
+        }
+
+        /* Estilo para los enlaces de navegación con efecto hover mejorado */
+        .nav-link {
+            position: relative;
+            padding-bottom: 6px; /* Más espacio para el subrayado */
+            font-weight: 500;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px; /* Subrayado más grueso */
+            bottom: 0;
+            left: 0;
+            background-color: var(--color-blue); /* Color del subrayado */
+            transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Curva de transición más suave */
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link:hover {
+            color: var(--color-blue);
+            text-shadow: 0 0 8px rgba(156, 203, 218, 0.6); /* Efecto glow en el texto */
+        }
+
+        /* Efecto glow para botones con relleno */
+        .btn-glow {
+            box-shadow: 0 0 15px rgba(158, 106, 203, 0.6); /* Sombra inicial para el glow */
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(158, 106, 203, 0.9), 0 0 40px rgba(158, 106, 203, 0.4); /* Glow más intenso en hover */
+            transform: translateY(-2px) scale(1.02); /* Ligero levantamiento y escala */
+        }
+
+        /* Nuevo estilo para el botón principal (con borde) */
+        .btn-hero-bordered {
+            background-color: transparent; /* Fondo transparente por defecto */
+            border: 2px solid var(--color-purple); /* Borde con el color púrpura */
+            color: var(--color-purple); /* Color del texto púrpura */
+            box-shadow: 0 0 15px rgba(158, 106, 203, 0.4); /* Sombra inicial sutil */
+            transition: all 0.3s ease-in-out; /* Transición para todos los cambios */
+        }
+
+        .btn-hero-bordered:hover {
+            background-color: var(--color-purple); /* Fondo púrpura en hover */
+            color: var(--color-dark-primary); /* Texto oscuro en hover */
+            box-shadow: 0 0 25px rgba(158, 106, 203, 0.9), 0 0 40px rgba(158, 106, 203, 0.4); /* Glow más intenso en hover */
+            transform: translateY(-2px) scale(1.01); /* Ligero levantamiento y escala sutil */
+        }
+
+        /* Efecto de borde y sombra para tarjetas de servicio y galería */
+        .card-effect {
+            border: 2px solid var(--color-gray-700);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra más profunda */
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición ligeramente más larga */
+            position: relative; /* Para el ::before */
+            overflow: hidden; /* Para recortar el gradiente del ::before */
+            
+            /* Nuevas propiedades para centrar el contenido con flexbox */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centra horizontalmente los elementos hijos */
+            text-align: center; /* Para asegurar que el texto se centre dentro de sus propios bloques */
+        }
+        .card-effect:hover {
+            border-color: var(--color-blue); /* Color de borde en hover */
+            /* Se eliminó el glow azul de la sombra en hover */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); /* Sombra más profunda sin glow azul, y menos intensa */
+            transform: translateY(-8px) scale(1.02); /* Levantamiento y escala más notorios */
+            background-color: var(--color-gray-700); /* Cambio sutil de fondo en hover */
+        }
+        /* Eliminado el pseudo-elemento ::before y su efecto de glow blanco */
+        .card-effect::before {
+            content: none; /* Elimina el pseudo-elemento */
+        }
+        .card-effect:hover::before {
+            content: none; /* Asegura que no aparezca en hover */
+        }
+        .card-effect .service-icon { /* Contenedor del icono */
+            transition: transform 0.4s ease-in-out;
+            position: relative;
+            z-index: 2; /* Asegura que el icono esté por encima de la superposición */
+            display: flex; /* Para centrar la imagen dentro */
+            justify-content: center;
+            align-items: center;
+            height: 96px; /* Altura para el icono (equivalente a text-7xl) */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .card-effect:hover .service-icon {
+            transform: scale(1.1); /* Escala ligeramente el icono en hover */
+        }
+        .card-effect .service-icon img {
+            width: 72px; /* Tamaño de la imagen del icono (equivalente a text-7xl) */
+            height: 72px;
+            object-fit: contain; /* Asegura que la imagen se ajuste sin distorsionarse */
+        }
+
+        /* Filtros de color para los iconos SVG */
+        .filter-custom-blue {
+            filter: invert(70%) sepia(20%) saturate(2000%) hue-rotate(180deg) brightness(90%) contrast(100%);
+        }
+        .filter-custom-purple {
+            filter: invert(50%) sepia(50%) saturate(1500%) hue-rotate(270deg) brightness(80%) contrast(100%);
+        }
+        .filter-custom-beige {
+            filter: invert(80%) sepia(10%) saturate(1000%) hue-rotate(30deg) brightness(100%) contrast(100%);
+        }
+
+
+        /* Partículas flotantes */
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0; /* Inicialmente ocultas */
+            animation: floatAndFade 15s infinite ease-in-out;
+        }
+
+        @keyframes floatAndFade {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50vw) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Animación para el formulario de contacto */
+        .form-input:focus {
+            border-color: var(--color-purple);
+            box-shadow: 0 0 0 3px rgba(158, 106, 203, 0.5);
+        }
+        .form-textarea:focus {
+            border-color: var(--color-purple);
+            box-shadow: 0 0 0 3px rgba(158, 106, 203, 0.5);
+        }
+
+        /* Animaciones para la sección "Sobre Nosotros" */
+        /* New styles for the enhanced "Sobre Nosotros" box */
+        .about-text-enhanced {
+            position: relative;
+            background: linear-gradient(145deg, var(--color-gray-800) 0%, var(--color-dark-primary) 100%); /* Subtle gradient background */
+            border: 3px solid transparent; /* Thicker transparent border for gradient */
+            border-radius: 1.5rem; /* More rounded corners */
+            padding: 2.5rem; /* More padding */
+            /* Ajuste de sombra: menos dispersión y opacidad */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Sombra sin glow de color */
+            overflow: hidden; /* For pseudo-elements */
+            transition: all 0.5s ease-in-out; /* Smooth transition for hover effects */
+        }
+
+        .about-text-enhanced:hover {
+            /* Ajuste de sombra en hover: menos dispersión y opacidad */
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6); /* Eliminado el glow púrpura, solo sombra oscura */
+            transform: translateY(-5px); /* Slight lift on hover */
+        }
+
+        /* Eliminado el pseudo-elemento ::before y su efecto de glow */
+        .about-text-enhanced::before {
+            content: none; /* Elimina el pseudo-elemento */
+        }
+        .about-text-enhanced:hover::before {
+            content: none; /* Asegura que no aparezca en hover */
+        }
+
+        /* Subtle background pattern/texture for the box */
+        .about-text-enhanced::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,%3Csvg width="6" height="6" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23e3bfb3" fill-opacity="0.05" fill-rule="evenodd"%3E%3Cpath d="M5 0h1L0 6V5zM6 5v1H5zM1 0h1L0 2V1z"%3E%3C/path%3E%3C/g%3E%3C/svg%3E');
+            opacity: 0.2;
+            z-index: -2;
+            border-radius: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-dark-primary text-light-primary">
+
+    <div id="particle-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <header id="main-header" class="fixed top-0 w-full z-50 bg-dark-primary py-6 shadow-lg header-hidden header-transition">
+        <div class="container mx-auto px-4">
+            <nav class="w-full">
+                <ul class="flex flex-wrap justify-center space-x-4 md:space-x-8 text-xl font-medium">
+                    <li><a href="#hero-section" class="hover:text-custom-blue transition duration-300 scroll-link nav-link">Inicio</a></li>
+                    <li><a href="#servicios" class="hover:text-custom-blue transition duration-300 scroll-link nav-link">Servicios</a></li>
+                    <li><a href="#galeria" class="hover:text-custom-blue transition duration-300 scroll-link nav-link">Galería</a></li>
+                    <li><a href="#nosotros" class="hover:text-custom-blue transition duration-300 scroll-link nav-link">Nosotros</a></li>
+                    <li><a href="#contacto" class="hover:text-custom-blue transition duration-300 scroll-link nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero-section" class="h-screen bg-dark-primary flex items-center justify-center text-center relative overflow-hidden">
+        <div class="container mx-auto flex flex-col items-center px-4 relative z-10">
+            <div id="hero-logo-container" class="mb-8">
+                <img src="logos/logo blanco.png" alt="Logo de ChiquiDreams" class="h-[30rem] md:h-[35rem] lg:h-[45rem] mx-auto mb-6">
+            </div>
+            <a id="hero-button" href="#servicios" class="inline-block btn-hero-bordered font-bold py-4 px-12 rounded-full text-xl md:text-2xl shadow-xl scroll-link">
+                Ver nuestros servicios
+            </a>
+        </div>
+    </section>
+
+    <main class="pt-24">
+        <section id="servicios" class="bg-gray-800 section-content relative z-10">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-5xl font-bold text-light-primary mb-12 section-title">Nuestros Servicios</h2>
+                <div class="flex flex-wrap justify-center gap-10 mb-10 service-cards-row">
+                    <div class="bg-dark-primary p-8 rounded-xl shadow-xl card-effect w-full sm:w-80">
+                        <div class="service-icon">
+                            <img src="resources/pincel-de-lapiz.svg" alt="Icono Pintacaras" class="filter-custom-blue">
+                        </div>
+                        <h3 class="text-3xl font-semibold text-light-primary mb-4">Pintacaras</h3>
+                        <p class="text-lg text-gray-300">
+                            Pintamos a los peques en sus personajes favoritos con pinturas hipoalergénicas.
+                        </p>
+                    </div>
+                    <div class="bg-dark-primary p-8 rounded-xl shadow-xl card-effect w-full sm:w-80">
+                        <div class="service-icon">
+                            <img src="resources/ajedrez-caballero-alt.svg" alt="Icono Juegos y Competiciones" class="filter-custom-purple">
+                        </div>
+                        <h3 class="text-3xl font-semibold text-light-primary mb-4">Juegos y Competiciones</h3>
+                        <p class="text-lg text-gray-300">
+                            Actividades 100% dinámicas y adaptadas a cada edad para la máxima diversión.
+                        </p>
+                    </div>
+                    <div class="bg-dark-primary p-8 rounded-xl shadow-xl card-effect w-full sm:w-80">
+                        <div class="service-icon">
+                            <img src="resources/avion-de-papel.svg" alt="Icono Talleres Creativos" class="filter-custom-beige">
+                        </div>
+                        <h3 class="text-3xl font-semibold text-light-primary mb-4">Talleres Creativos</h3>
+                        <p class="text-lg text-gray-300">
+                            Manualidades, plastilina, dibujo y otras actividades para despertar la imaginación.
+                        </p>
+                    </div>
+                    <div class="bg-dark-primary p-8 rounded-xl shadow-xl card-effect w-full sm:w-80">
+                        <div class="service-icon">
+                            <img src="resources/sombrero-de-bruja.svg" alt="Icono Temáticas" class="filter-custom-blue">
+                        </div>
+                        <h3 class="text-3xl font-semibold text-light-primary mb-4">Temáticas</h3>
+                        <p class="text-lg text-gray-300">
+                            Temáticas personalizadas con temáticas de piratas, princesas, superhéroes y más.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-10 service-cards-row">
+                    <div class="bg-dark-primary p-8 rounded-xl shadow-xl card-effect w-full sm:w-80">
+                        <div class="service-icon">
+                            <img src="resources/musica-alternativa.svg" alt="Icono Música y Baile" class="filter-custom-purple">
+                        </div>
+                        <h3 class="text-3xl font-semibold text-light-primary mb-4">Música y Baile</h3>
+                        <p class="text-lg text-gray-300">
+                            Baile y música con nuestro altavoz propio para una fiesta sin parar.
+                        </p>
+                    </div>
+                    <div class="bg-dark-primary p-8 rounded-xl shadow-xl card-effect w-full sm:w-80">
+                        <div class="service-icon">
+                            <img src="resources/libro-alt.svg" alt="Icono Cuentacuentos" class="filter-custom-beige">
+                        </div>
+                        <h3 class="text-3xl font-semibold text-light-primary mb-4">Cuentacuentos</h3>
+                        <p class="text-lg text-gray-300">
+                            Cuentos para que los peques disfruten de historias divertidas.
+                        </p>
+                    </div>
+                    <div class="bg-dark-primary p-8 rounded-xl shadow-xl card-effect w-full sm:w-80">
+                        <div class="service-icon">
+                            <img src="resources/balloons.svg" alt="Icono Globoflexia" class="filter-custom-blue">
+                        </div>
+                        <h3 class="text-3xl font-semibold text-light-primary mb-4">Globoflexia</h3>
+                        <p class="text-lg text-gray-300">
+                            Figuras de globos para todos los niños.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="galeria" class="section-content relative z-10">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-5xl font-bold text-light-primary mb-12 section-title">Nuestra Galería</h2>
+                <p class="text-xl text-light-primary mb-4 gallery-text">
+                    Estamos haciendo nuestro perfil con fotos y vídeos reales de nuestras animaciones en Instragram.
+                </p>
+                <p class="text-lg text-gray-300 mb-8">
+                    Abajo puedes ver algunas imágenes de nuestra galeria.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gallery-images">
+                    <img src="https://placehold.co/600x400/9e6acb/1a1a1a?text=Niños+riendo" alt="Niños riendo" class="w-full h-auto object-cover rounded-xl shadow-lg card-effect border-2 border-custom-purple">
+                    <img src="https://placehold.co/600x400/9ccbda/1a1a1a?text=Pintacaras+divertido" alt="Pintacaras divertido" class="w-full h-auto object-cover rounded-xl shadow-lg card-effect border-2 border-custom-blue">
+                    <img src="https://placehold.co/600x400/e3bfb3/1a1a1a?text=Globoflexia+creativa" alt="Globoflexia creativa" class="w-full h-auto object-cover rounded-xl shadow-lg card-effect border-2 border-custom-beige">
+                    <img src="https://placehold.co/600x400/1a1a1a/e5e5e5?text=Juegos+en+equipo" alt="Juegos en equipo" class="w-full h-auto object-cover rounded-xl shadow-lg card-effect border-2 border-gray-700">
+                    <img src="https://placehold.co/600x400/e5e5e5/1a1a1a?text=Mágia+sorprendente" alt="Magia sorprendente" class="w-full h-auto object-cover rounded-xl shadow-lg card-effect border-2 border-gray-700">
+                    <img src="https://placehold.co/600x400/9e6acb/1a1a1a?text=Bailes+y+música" alt="Bailes y música" class="w-full h-auto object-cover rounded-xl shadow-lg card-effect border-2 border-custom-purple">
+                </div>
+            </div>
+        </section>
+
+        <section id="nosotros" class="bg-gray-800 section-content relative z-10">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-5xl font-bold text-light-primary mb-12 section-title">Sobre ChiquiDreams</h2>
+                <div class="max-w-3xl mx-auto about-text-enhanced">
+                    <div>
+                        <p class="text-lg md:text-xl leading-relaxed mb-6 text-gray-300">
+                            Somos un equipo de 8 animadores formados con un curso especializado en animación infantil. Nuestro objetivo es crear momentos inolvidables para niños y familias a través del juego, el arte y la creatividad. Con experiencia, energía y mucho cariño, adaptamos cada actividad al evento y a las edades del grupo.
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-lg md:text-xl leading-relaxed text-gray-300">
+                            Contamos con todo el material necesario para nuestras animaciones: pinturas hipoalergénicas, globos, juegos, altavoz, manualidades y decoración básica. Nos adaptamos a espacios interiores o exteriores.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="section-content relative z-10">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-5xl font-bold text-light-primary mb-12 section-title">Contáctanos</h2>
+                <p class="text-xl text-light-primary mb-8 contact-text">
+                    ¿Listo para hacer realidad la fiesta de tus sueños? ¡Pide tu presupuesto sin compromiso!
+                </p>
+                
+                <div class="flex flex-col lg:flex-row lg:justify-center lg:items-start gap-12 max-w-5xl mx-auto">
+                    <div class="lg:w-1/2 bg-gray-800 p-8 rounded-xl shadow-xl card-effect text-left contact-info-box">
+                        <h3 class="text-3xl font-semibold text-light-primary mb-6">Nuestros Datos de Contacto</h3>
+                        <div class="space-y-4 text-lg text-gray-300">
+                            <p class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-custom-blue mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                                <span class="text-custom-blue font-bold">+34 658 607 716</span>
+                            </p>
+                            <p class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-custom-blue mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <span class="text-custom-blue font-bold">(email no hecho)</span>
+                            </p>
+                            <p class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-custom-blue mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                Málaga y alrededores
+                            </p>
+                            <p class="mt-4">
+                                Nos desplazamos a domicilio, restaurantes, fincas, colegios o donde sea necesario.
+                            </p>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <a href="https://www.instagram.com/chiquidreams_animacion/" target="_blank" class="inline-flex items-center justify-center custom-purple text-dark-primary font-bold py-3 px-8 rounded-full text-xl hover:scale-105 transition duration-300 shadow-lg btn-glow">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2A4.8 4.8 0 002.8 7.8v8.4c0 2.6 2.1 4.8 4.8 4.8h8.4a4.8 4.8 0 004.8-4.8V7.8c0-2.6-2.1-4.8-4.8-4.8H7.6z"/>
+                                    <path d="M12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm6.5-3a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"/>
+                                </svg>
+                                Síguenos en Instagram
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-1/2 bg-gray-800 p-8 rounded-xl shadow-xl card-effect contact-form-box">
+                        <h3 class="text-3xl font-semibold text-light-primary mb-6">Envíanos un Mensaje</h3>
+                        <form class="space-y-6">
+                            <div>
+                                <label for="nombre" class="block text-left text-lg font-medium text-light-primary mb-2">Nombre:</label>
+                                <input type="text" id="nombre" name="nombre" class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-light-primary focus-ring-custom-purple form-input" placeholder="Tu nombre" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-left text-lg font-medium text-light-primary mb-2">Email:</label>
+                                <input type="email" id="email" name="email" class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-light-primary focus-ring-custom-purple form-input" placeholder="tu.email@ejemplo.com" required>
+                            </div>
+                            <div>
+                                <label for="mensaje" class="block text-left text-lg font-medium text-light-primary mb-2">Mensaje:</label>
+                                <textarea id="mensaje" name="mensaje" rows="5" class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-light-primary focus-ring-custom-purple form-textarea" placeholder="Cuéntanos sobre tu evento y lo que necesitas..." required></textarea>
+                            </div>
+                            <button type="submit" class="w-full custom-purple text-dark-primary font-bold py-3 px-6 rounded-full text-xl hover:scale-105 transition duration-300 shadow-lg btn-glow">
+                                Enviar Mensaje
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-dark-primary py-8 border-t border-gray-700">
+            <div class="container mx-auto px-4 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 ChiquiDreams. Todos los derechos reservados.</p>
+                <div class="mt-4 flex justify-center space-x-6">
+                    <a href="#" class="hover:text-custom-blue transition duration-300">Política de Privacidad</a>
+                    <a href="#" class="hover:text-custom-blue transition duration-300">Aviso Legal</a>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            // Registra los plugins ScrollTrigger y ScrollToPlugin de GSAP
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+            // Obtiene el elemento del header
+            const mainHeader = document.getElementById('main-header');
+            // Obtiene el elemento de la sección hero para determinar su altura
+            const heroSection = document.getElementById('hero-section');
+
+            // Función que se ejecuta al hacer scroll para el header fijo
+            function handleHeaderScroll() {
+                const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+                if (window.scrollY > heroHeight - 80) {
+                    mainHeader.classList.remove('header-hidden');
+                    mainHeader.classList.add('header-visible');
+                } else {
+                    mainHeader.classList.remove('header-visible');
+                    mainHeader.classList.add('header-hidden');
+                }
+            }
+
+            // Script para el desplazamiento suave con GSAP
+            document.querySelectorAll('a.scroll-link').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        const headerOffset = mainHeader.offsetHeight;
+                        const offsetPosition = targetElement.getBoundingClientRect().top + window.scrollY - headerOffset;
+                        
+                        gsap.to(window, {
+                            duration: 1, // Duración de la animación de scroll
+                            scrollTo: {
+                                y: offsetPosition,
+                                autoKill: false // Evita que se detenga si el usuario hace scroll manual
+                            },
+                            ease: "power2.inOut" // Curva de easing suave
+                        });
+                    }
+                });
+            });
+
+            // Animaciones de entrada con GSAP
+            window.addEventListener('load', () => {
+                handleHeaderScroll(); // Establece el estado inicial del header
+
+                // Animación de la sección Hero
+                gsap.from("#hero-logo-container", {
+                    duration: 1.5,
+                    y: 50,
+                    opacity: 0,
+                    ease: "power3.out",
+                    delay: 0.5
+                });
+                gsap.from("#hero-button", {
+                    duration: 1.5,
+                    y: 50,
+                    opacity: 0,
+                    ease: "power3.out",
+                    delay: 0.8
+                });
+
+                // Animaciones para cada sección al hacer scroll
+                gsap.utils.toArray(".section-content").forEach(section => {
+                    gsap.from(section.querySelector(".section-title"), {
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 80%", // Cuando el 80% de la sección está visible
+                            toggleActions: "play none none none",
+                            once: true // Solo se anima una vez
+                        },
+                        duration: 1,
+                        y: 50,
+                        opacity: 0,
+                        ease: "power2.out"
+                    });
+
+                    // Animación escalonada para las tarjetas de servicio
+                    if (section.id === "servicios") {
+                        gsap.from(section.querySelectorAll(".service-cards-row > div"), {
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 70%",
+                                toggleActions: "play none none none",
+                                once: true
+                            },
+                            duration: 0.8,
+                            y: 50,
+                            opacity: 0,
+                            stagger: 0.15, // Retraso entre cada elemento
+                            ease: "back.out(1.2)"
+                        });
+                    }
+
+                    // Animación escalonada para las imágenes de la galería
+                    if (section.id === "galeria") {
+                        gsap.from(section.querySelector(".gallery-text"), {
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 80%",
+                                toggleActions: "play none none none",
+                                once: true
+                            },
+                            duration: 1,
+                            y: 30,
+                            opacity: 0,
+                            ease: "power2.out",
+                            delay: 0.2
+                        });
+                        gsap.from(section.querySelectorAll(".gallery-images img"), {
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 70%",
+                                toggleActions: "play none none none",
+                                once: true
+                            },
+                            duration: 0.8,
+                            y: 50,
+                            opacity: 0,
+                            stagger: 0.1,
+                            ease: "back.out(1.2)"
+                        });
+                    }
+
+                    // Animación para el texto "Sobre ChiquiDreams"
+                    if (section.id === "nosotros") {
+                        // Animación para el contenedor del texto "Sobre Nosotros"
+                        gsap.from(section.querySelector(".about-text-enhanced"), { // Selector actualizado
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 70%",
+                                toggleActions: "play none none none",
+                                once: true
+                            },
+                            duration: 1.2, // Duración ligeramente más larga
+                            y: 80, // Deslizamiento más pronunciado
+                            opacity: 0,
+                            scale: 0.9, // Comienza ligeramente más pequeño
+                            ease: "power3.out", // Curva de easing más suave
+                            onComplete: () => {
+                                // Anima los párrafos después de que la caja esté en su lugar
+                                gsap.from(section.querySelectorAll(".about-text-enhanced p"), { // Selector actualizado
+                                    duration: 1,
+                                    y: 30,
+                                    opacity: 0,
+                                    stagger: 0.4, // Retraso aumentado para una aparición más distintiva
+                                    ease: "power2.out",
+                                    delay: 0.2 // Pequeño retraso después de la animación de la caja
+                                });
+                            }
+                        });
+                    }
+
+                    // Animación para el formulario de contacto y la información
+                    if (section.id === "contacto") {
+                        gsap.from(section.querySelector(".contact-info-box"), { // Target the new info box
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 70%",
+                                toggleActions: "play none none none",
+                                once: true
+                            },
+                            duration: 1,
+                            x: -50, // Animate from left
+                            opacity: 0,
+                            ease: "power2.out"
+                        });
+                        gsap.from(section.querySelector(".contact-form-box"), { // Target the new form box
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 70%",
+                                toggleActions: "play none none none",
+                                once: true
+                            },
+                            duration: 1,
+                            x: 50, // Animate from right
+                            opacity: 0,
+                            delay: 0.2, // Slight delay for the form
+                            ease: "power2.out"
+                        });
+                    }
+                });
+
+                // Agrega el event listener para el scroll del header
+                window.addEventListener('scroll', handleHeaderScroll);
+
+                // Generación de partículas flotantes
+                const particleContainer = document.getElementById('particle-container');
+                const numParticles = 30; // Número de partículas
+
+                function createParticle() {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    const size = Math.random() * 8 + 4; // Tamaño entre 4px y 12px
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}vw`; // Posición horizontal aleatoria
+                    particle.style.top = `${Math.random() * 100}vh`; // Posición vertical aleatoria
+                    
+                    // Retraso aleatorio para la animación para que no empiecen todas a la vez
+                    particle.style.animationDelay = `${Math.random() * 10}s`;
+                    // Duración aleatoria para la animación
+                    particle.style.animationDuration = `${10 + Math.random() * 10}s`; 
+
+                    particleContainer.appendChild(particle);
+
+                    // Eliminar partículas que se salen de la pantalla para evitar acumulación
+                    particle.addEventListener('animationend', () => {
+                        particle.remove();
+                        // Volver a crear una partícula para un flujo continuo
+                        createParticle(); 
+                    });
+                }
+
+                // Crea las partículas iniciales
+                for (let i = 0; i < numParticles; i++) {
+                    createParticle();
+                }
+
+            });
+        </script>
+    </body>
+</html>
