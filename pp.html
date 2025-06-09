@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChiquiDreams - Política de Privacidad y Honorarios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script> <!-- Script de ScrollTrigger añadido -->
+    <style>
+        /* Define la fuente personalizada Stopbuck */
+        @font-face {
+            font-family: 'Stopbuck';
+            src: url('fonts/Stopbuck.ttf') format('truetype'); /* Asegúrate de que la ruta sea correcta */
+        }
+        /* Define la fuente principal para el cuerpo del documento a Outfit */
+        body {
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden; /* Evita el scroll horizontal causado por animaciones */
+            color: var(--color-text-dark); /* Color de texto oscuro por defecto */
+            background-color: #E0BBE4; /* Establece un color inicial para evitar el blanco al cargar */
+            transition: background-color 2s ease-in-out; /* Transición para el fondo del body */
+        }
+
+        /* Aplica la fuente Stopbuck a todos los títulos principales */
+        h1, h2, h3 {
+            font-family: 'Stopbuck', sans-serif;
+            /* Sombra de texto suave para que los títulos destaquen */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+            color: var(--color-text-dark); /* Color del texto para títulos: igual que el texto general oscuro */
+            letter-spacing: 0.05em; /* Mayor separación entre letras para impacto */
+        }
+
+        /* Define colores personalizados en CSS para usar con Tailwind. Algunos serán actualizados por JS. */
+        :root {
+            --color-purple-base: #E0BBE4; /* Lila pastel */
+            --color-blue-base: #95DADA;   /* Azul cielo pastel */
+            --color-green-base: #B3DBCF;  /* Verde menta pastel */
+            
+            --color-light-background: #FDFDFD; /* Blanco muy sutil para elementos como tarjetas */
+            --color-text-dark: #4A4A4A; /* Texto gris oscuro suave */
+            --color-soft-gray: #EFEFEF; /* Gris muy claro para fondos de tarjetas */
+            --color-medium-gray: #DCDCDC; /* Gris medio para bordes */
+
+            /* Variables dinámicas que JavaScript actualizará */
+            --dynamic-header-bg: #E0BBE4; /* Color inicial del header (igual que el body), mantenido por si se usa en el futuro */
+            --dynamic-footer-bg: #E0BBE4; /* Color inicial del footer (igual que el body) */
+            --dynamic-hover-color: #95DADA; /* Color inicial para hover de nav-links (será actualizado por JS) */
+            --dynamic-button-hover-bg: #E0BBE4; /* Color inicial para el hover del botón principal (será actualizado por JS) */
+            --dynamic-icon-blue: invert(70%) sepia(20%) saturate(1500%) hue-rotate(170deg) brightness(95%) contrast(100%);
+            --dynamic-icon-purple: invert(50%) sepia(30%) saturate(1000%) hue-rotate(240deg) brightness(90%) contrast(100%);
+            --dynamic-icon-green: invert(75%) sepia(15%) saturate(700%) hue-rotate(90deg) brightness(100%) contrast(100%);
+        }
+
+        .custom-purple { background-color: var(--color-purple-base); }
+        .text-custom-purple { color: var(--color-purple-base); }
+        .custom-blue { background-color: var(--color-blue-base); }
+        .text-custom-blue { color: var(--color-blue-base); }
+        .custom-green { background-color: var(--color-green-base); } 
+        .text-custom-green { color: var(--color-green-base); } 
+
+        .bg-light-background { background-color: var(--color-light-background); } /* Usado para tarjetas, no para el header dinámico */
+        .text-text-dark { color: var(--color-text-dark); }
+        .bg-soft-gray { background-color: var(--color-soft-gray); }
+        .border-medium-gray { border-color: var(--color-medium-gray); }
+
+        .focus-ring-custom-purple:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(224, 187, 228, 0.5); 
+        }
+
+        /* Estilo general para las secciones. Los fondos de sección internos se han eliminado para que el fondo del body sea continuo. */
+        section {
+            padding: 4rem 0; /* Espaciado reducido para subir el contenido */
+            position: relative; 
+            overflow: hidden; 
+            z-index: 1; 
+        }
+        @media (max-width: 768px) {
+            section {
+                padding: 2rem 0; /* Espaciado reducido para móviles */
+            }
+        }
+
+        /* HEADER - No aplicable directamente a esta página, pero se mantiene la definición */
+        header {
+            background-color: var(--dynamic-header-bg);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+
+        /* Animación de fondo sutil (se mantiene para un efecto visual aunque no haya hero-section) */
+        body::before { /* Aplica el efecto a todo el body */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%); 
+            animation: pulse-gradient 6s infinite alternate ease-in-out;
+            z-index: -1; 
+        }
+
+        @keyframes pulse-gradient {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 0.6; }
+        }
+        
+        /* Efecto glow para botones con relleno */
+        .btn-glow {
+            box-shadow: 0 0 10px rgba(224, 187, 228, 0.6); 
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(224, 187, 228, 0.9), 0 0 30px rgba(224, 187, 228, 0.4); 
+            transform: translateY(-2px) scale(1.02); 
+        }
+
+        /* Nuevo estilo para el botón principal (con borde) */
+        .btn-hero-bordered {
+            background-color: transparent;
+            border: 2px solid var(--color-text-dark); 
+            color: var(--color-text-dark); 
+            box-shadow: 0 0 10px rgba(74, 74, 74, 0.2); 
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-hero-bordered:hover {
+            background-color: var(--dynamic-button-hover-bg); /* Fondo dinámico en hover */
+            color: var(--color-text-dark); /* Cambiado a texto oscuro */
+            border-color: var(--dynamic-hover-color); /* Borde cambia de color en hover */
+            box-shadow: 0 0 25px rgba(var(--dynamic-button-hover-bg-rgb), 0.9), 0 0 40px rgba(var(--dynamic-button-hover-bg-rgb), 0.6); /* Sombra más pronunciada */
+            transform: translateY(-5px) scale(1.03); /* Movimiento y escala más pronunciados */
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición más suave y con rebote */
+        }
+
+        /* Efecto de borde y sombra para tarjetas de servicio y galería */
+        .card-effect {
+            background-color: var(--color-light-background); 
+            border: 2px solid var(--color-soft-gray);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: var(--color-text-dark); 
+        }
+        .card-effect:hover {
+            border-color: var(--dynamic-hover-color); /* Color de borde en hover dinámico */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); 
+            transform: translateY(-8px) scale(1.02);
+            background-color: var(--color-soft-gray); 
+        }
+        .card-effect .service-icon {
+            transition: transform 0.4s ease-in-out;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 96px;
+            margin-bottom: 1.5rem;
+        }
+        .card-effect:hover .service-icon {
+            transform: scale(1.1);
+        }
+        .card-effect .service-icon img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+        }
+
+        /* Filtros de color para los iconos SVG */
+        .filter-custom-blue { filter: var(--dynamic-icon-blue); }
+        .filter-custom-purple { filter: var(--dynamic-icon-purple); }
+        .filter-custom-beige { filter: var(--dynamic-icon-green); } /* Usando el nuevo color verde aquí */
+
+        /* Partículas flotantes */
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.6); 
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: floatAndFade 15s infinite ease-in-out;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5); 
+        }
+
+        @keyframes floatAndFade {
+            0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) translateX(50vw) scale(1.2); opacity: 0; }
+        }
+
+        /* Animación para el formulario de contacto */
+        .form-input:focus {
+            border-color: var(--color-purple-base); /* Se mantiene la base para el enfoque */
+            box-shadow: 0 0 0 3px rgba(224, 187, 228, 0.5);
+        }
+        .form-textarea:focus {
+            border-color: var(--color-purple-base); /* Se mantiene la base para el enfoque */
+            box-shadow: 0 0 0 3px rgba(224, 187, 228, 0.5);
+        }
+        
+        /* Estilo para el icono de Instagram */
+        .instagram-icon-filter {
+            filter: invert(24%) sepia(8%) saturate(278%) hue-rotate(189deg) brightness(97%) contrast(85%);
+            transition: filter 0.3s ease-in-out;
+        }
+
+        /* Pie de página ahora con color de fondo dinámico */
+        footer {
+            background-color: var(--dynamic-footer-bg); /* Color de fondo dinámico */
+            transition: background-color 2s ease-in-out; /* Transición para el fondo del footer */
+            border-top: 2px solid var(--color-medium-gray); /* Mantener un borde sutil */
+            color: var(--color-text-dark); /* Color de texto oscuro para el footer */
+        }
+
+        /* Estilo específico para el contenido de la Política de Privacidad y Honorarios */
+        .content-box {
+            background-color: var(--color-light-background);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            color: var(--color-text-dark);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            border: 2px solid var(--color-soft-gray); /* Borde sutil para las cajas de contenido */
+        }
+        .content-box h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 2.25rem; /* text-4xl */
+            text-align: left;
+        }
+        .content-box h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.75rem; /* text-3xl */
+            text-align: left;
+        }
+        .content-box p, .content-box ul {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .content-box ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+        }
+        .content-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Elimina el margen superior del primer h2 dentro del content-box */
+        .content-box h2:first-of-type {
+            margin-top: 0; 
+        }
+
+        /* Estilo para el botón de volver al inicio */
+        .btn-back-to-home {
+            background-color: transparent; /* Fondo transparente por defecto */
+            border: 2px solid var(--color-text-dark); /* Borde sólido con color de texto oscuro */
+            color: var(--color-text-dark); /* Color de texto oscuro */
+            font-weight: bold;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px; /* Completamente redondeado */
+            font-size: 1.25rem; /* Tamaño de fuente más grande */
+            box-shadow: 0 0 10px rgba(74, 74, 74, 0.2); /* Sombra suave inicial */
+            transition: all 0.3s ease-in-out; /* Transición suave para todos los cambios */
+            display: inline-block; /* Para que se pueda centrar y aplicar transformaciones */
+        }
+
+        .btn-back-to-home:hover {
+            background-color: var(--dynamic-button-hover-bg); /* Se rellena con color dinámico en hover */
+            color: var(--color-text-dark); /* El color del texto permanece oscuro */
+            border-color: var(--dynamic-hover-color); /* El borde cambia al color dinámico de hover */
+            box-shadow: 0 0 25px rgba(var(--dynamic-button-hover-bg-rgb), 0.9), 0 0 40px rgba(var(--dynamic-button-hover-bg-rgb), 0.6); /* Sombra más pronunciada y con glow */
+            transform: translateY(-5px) scale(1.03); /* Se eleva y agranda ligeramente */
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición con efecto de rebote */
+        }
+    </style>
+</head>
+<body class="text-text-dark">
+
+    <div id="particle-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <main class="pt-0 pb-24"> <!-- Reducido el padding-top a 0 para subir el contenido -->
+        <section id="privacy-policy-and-fees" class="section-content relative z-10">
+            <div class="container mx-auto px-4 text-center pt-8"> <!-- Añadido padding-top aquí para el título -->
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-text-title mb-8 md:mb-12">Política de Privacidad y Honorarios</h1>
+                
+                <div class="max-w-4xl mx-auto content-box text-left">
+                    <h2>Introducción</h2>
+                    <p>En ChiquiDreams, nos comprometemos a proteger la privacidad de nuestros usuarios. Esta Política de Privacidad describe cómo recopilamos, usamos y protegemos la información personal que nos proporcionas al utilizar nuestros servicios.</p>
+
+                    <h2>1. Información que Recopilamos</h2>
+                    <p>Podemos recopilar y procesar los siguientes tipos de información sobre ti:</p>
+                    <ul>
+                        <li><strong>Información de Contacto:</strong> Nombre, dirección de correo electrónico, número de teléfono y cualquier otra información que nos proporciones voluntariamente a través de formularios de contacto o comunicaciones directas.</li>
+                        <li><strong>Información del Evento:</strong> Detalles sobre el evento para el que solicitas nuestros servicios (fecha, ubicación, tipo de evento, número de niños, etc.).</li>
+                        <li><strong>Datos de Uso:</strong> Información sobre cómo interactúas con nuestra página web, incluyendo las páginas que visitas, el tiempo que pasas en ellas y el comportamiento de navegación.</li>
+                    </ul>
+
+                    <h2>2. Uso de la Información</h2>
+                    <p>Utilizamos la información recopilada para los siguientes propósitos:</p>
+                    <ul>
+                        <li>Proporcionar y gestionar nuestros servicios de animación infantil.</li>
+                        <li>Responder a tus consultas y solicitudes de presupuesto.</li>
+                        <li>Mejorar nuestra página web y la oferta de servicios.</li>
+                        <li>Enviar comunicaciones de marketing (con tu consentimiento previo).</li>
+                        <li>Cumplir con las obligaciones legales.</li>
+                    </ul>
+
+                    <h2>3. Compartir Información</h2>
+                    <p>No vendemos, alquilamos ni comercializamos tu información personal con terceros. Podemos compartir tu información con:</p>
+                    <ul>
+                        <li>Proveedores de servicios que nos ayudan en la operación de nuestro negocio (por ejemplo, servicios de alojamiento web o plataformas de comunicación), siempre bajo estrictos acuerdos de confidencialidad.</li>
+                        <li>Autoridades legales si así lo exige la ley.</li>
+                    </ul>
+
+                    <h2>4. Seguridad de los Datos</h2>
+                    <p>Implementamos medidas de seguridad técnicas y organizativas adecuadas para proteger tu información personal contra el acceso no autorizado, la divulgación, la alteración o la destrucción.</p>
+
+                    <h2>5. Tus Derechos</h2>
+                    <p>De acuerdo con la legislación de protección de datos, tienes derecho a:</p>
+                    <ul>
+                        <li>Acceder a la información personal que tenemos sobre ti.</li>
+                        <li>Solicitar la rectificación de datos inexactos.</li>
+                        <li>Solicitar la eliminación de tus datos.</li>
+                        <li>Oponerte al procesamiento de tus datos para fines de marketing.</li>
+                        <li>Solicitar la limitación del procesamiento.</li>
+                    </ul>
+                    <p>Para ejercer cualquiera de estos derechos, por favor, contáctanos a través de los datos proporcionados en nuestra sección de contacto.</p>
+
+                    <h2>6. Cambios en esta Política de Privacidad</h2>
+                    <p>Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier momento. Cualquier cambio será publicado en esta página con la fecha de la última actualización. Te recomendamos revisar periódicamente esta política para estar informado sobre cómo protegemos tu información.</p>
+
+                    <h2>7. Honorarios y Presupuestos</h2>
+                    <p class="mb-6">
+                        En ChiquiDreams, nos dedicamos a hacer de cada celebración un momento inolvidable. Nuestros honorarios se adaptan a la perfección a las necesidades específicas de tu evento, porque creemos que la magia no debería tener un precio fijo.
+                    </p>
+                    
+                    <p class="mb-6">
+                        Cada presupuesto que elaboramos es totalmente personalizado, incluyendo todos los detalles necesarios para tu tranquilidad: el tiempo de animación, el número de animadores, los materiales para las actividades (pintacaras, globoflexia, talleres), nuestro equipo de sonido profesional, y por supuesto, el transporte hasta el lugar del evento. ¡Así te aseguras de que no haya sorpresas!
+                    </p>
+
+                    <p class="mb-6">
+                        Te invitamos a que nos cuentes tu visión y los detalles de tu evento. Estaremos encantados de escucharte, resolver tus dudas y prepararte una propuesta clara y sin compromiso, diseñada para que tu fiesta sea exactamente como la sueñas.
+                    </p>
+
+                    <div class="text-left mt-8"> <!-- Alineado a la izquierda -->
+                        <a href="index.html#contacto" class="inline-block btn-hero-bordered font-bold py-4 px-12 rounded-full text-xl md:text-2xl shadow-xl">
+                            Solicitar Presupuesto Personalizado
+                        </a>
+                    </div>
+                    
+                    <h2>8. Contacto</h2>
+                    <p class="mb-6">
+                        Para cualquier pregunta sobre esta Política de Privacidad, nuestros servicios o para solicitar tu presupuesto personalizado, no dudes en contactarnos a través de nuestra página principal. Estamos listos para escuchar tus ideas y ayudarte a planificar un evento mágico.
+                    </p>
+                    <div class="text-left"> <!-- Alineado a la izquierda -->
+                        <a href="index.html#contacto" class="inline-block btn-hero-bordered font-bold py-4 px-12 rounded-full text-xl md:text-2xl shadow-xl">
+                            Ir a la Sección de Contacto
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="mt-12 text-center">
+            <a href="index.html" class="btn-back-to-home">Volver al inicio</a>
+        </div>
+    </main>
+
+    <footer class="py-8">
+        <div class="container mx-auto px-4 text-center text-sm">
+            <p>&copy; 2025 ChiquiDreams. Todos los derechos reservados.</p>
+            <div class="mt-4 flex justify-center space-x-6">
+                <a href="pp.html" class="hover:text-custom-blue transition duration-300">Política de Privacidad</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const footerElement = document.querySelector('footer');
+        const root = document.documentElement;
+
+        const colorPalettes = [
+            {
+                unifiedColor: '#E0BBE4', // Lila suave
+                hoverColor: '#4A4A4A', // Gris oscuro para hover (contrasta bien)
+                buttonHoverBg: '#E0BBE4', // Morado para hover del botón
+                iconBlue: 'invert(70%) sepia(20%) saturate(1500%) hue-rotate(170deg) brightness(95%) contrast(100%)',
+                iconPurple: 'invert(50%) sepia(30%) saturate(1000%) hue-rotate(240deg) brightness(90%) contrast(100%)',
+                iconGreen: 'invert(75%) sepia(15%) saturate(700%) hue-rotate(90deg) brightness(100%) contrast(100%)',
+            },
+            {
+                unifiedColor: '#95DADA', // Azul claro
+                hoverColor: '#4A4A4A',
+                buttonHoverBg: '#95DADA',
+                iconBlue: 'invert(70%) sepia(20%) saturate(1500%) hue-rotate(170deg) brightness(95%) contrast(100%)',
+                iconPurple: 'invert(50%) sepia(30%) saturate(1000%) hue-rotate(240deg) brightness(90%) contrast(100%)',
+                iconGreen: 'invert(75%) sepia(15%) saturate(700%) hue-rotate(90deg) brightness(100%) contrast(100%)',
+            },
+            {
+                unifiedColor: '#B3DBCF', // Verde menta
+                hoverColor: '#4A4A4A',
+                buttonHoverBg: '#B3DBCF',
+                iconBlue: 'invert(70%) sepia(20%) saturate(1500%) hue-rotate(170deg) brightness(95%) contrast(100%)',
+                iconPurple: 'invert(50%) sepia(30%) saturate(1000%) hue-rotate(240deg) brightness(90%) contrast(100%)',
+                iconGreen: 'invert(75%) sepia(15%) saturate(700%) hue-rotate(90deg) brightness(100%) contrast(100%)',
+            }
+        ];
+
+        let currentPaletteIndex = 0;
+
+        function hexToRgb(hex) {
+            const bigint = parseInt(hex.slice(1), 16);
+            const r = (bigint >> 16) & 255;
+            const g = (bigint >> 8) & 255;
+            const b = bigint & 255;
+            return `${r}, ${g}, ${b}`;
+        }
+
+        function updateDynamicColors() {
+            const palette = colorPalettes[currentPaletteIndex];
+            
+            // Transición para el fondo del body
+            gsap.to(document.body, {
+                backgroundColor: palette.unifiedColor,
+                duration: 2,
+                ease: "power1.inOut"
+            });
+
+            // Transición para el fondo del footer
+            gsap.to(footerElement, {
+                backgroundColor: palette.unifiedColor,
+                duration: 2,
+                ease: "power1.inOut"
+            });
+
+            // Actualiza las variables CSS para los hover y filtros de iconos
+            root.style.setProperty('--dynamic-hover-color', palette.hoverColor);
+            root.style.setProperty('--dynamic-hover-color-rgb', hexToRgb(palette.hoverColor));
+            root.style.setProperty('--dynamic-button-hover-bg', palette.buttonHoverBg);
+            root.style.setProperty('--dynamic-button-hover-bg-rgb', hexToRgb(palette.buttonHoverBg));
+
+            root.style.setProperty('--dynamic-icon-blue', palette.iconBlue);
+            root.style.setProperty('--dynamic-icon-purple', palette.iconPurple);
+            root.style.setProperty('--dynamic-icon-green', palette.iconGreen);
+        }
+
+        function cycleColors() {
+            currentPaletteIndex = (currentPaletteIndex + 1) % colorPalettes.length;
+            updateDynamicColors();
+        }
+
+        // Inicia el cambio de colores cada 10 segundos
+        setInterval(cycleColors, 10000);
+
+        // Generación de partículas flotantes
+        const particleContainer = document.getElementById('particle-container');
+        const numParticles = 30; 
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 8 + 4; 
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}vw`; 
+            particle.style.top = `${Math.random() * 100}vh`; 
+            
+            particle.style.animationDelay = `${Math.random() * 10}s`;
+            particle.style.animationDuration = `${10 + Math.random() * 10}s`; 
+
+            particleContainer.appendChild(particle);
+
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+                createParticle(); 
+            });
+        }
+
+        window.addEventListener('load', () => {
+            updateDynamicColors(); // Establece los colores iniciales al cargar la página
+
+            for (let i = 0; i < numParticles; i++) {
+                createParticle();
+            }
+        });
+    </script>
+</body>
+</html>
